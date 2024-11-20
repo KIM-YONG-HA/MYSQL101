@@ -1,12 +1,9 @@
-# SQL 문법 - SELECT
-
+# SQL 문법 - SELECT, WHERE
 
 Mysql 설치시 제공되는 Sakila, World DB를 활용한 SELECT 예제를 진행한다.
 
 
-
 ## Select : 데이터 조회하기
-
 
 기본 형식
 ``` sql
@@ -39,12 +36,16 @@ SELECT * FROM tablename;
 
 테이블에 저장된 전체 데이터를 조회하게되면 시간이 오래 걸려 출력이 늦어지게 되고, 시스템에 과부하가 올 수가 있다. 그렇기 때문에 과부하를 줄이기 위해 내가 원하는 조건의 데이터만 WHERE문을 이용하여 조회한다.
 
-기본 형식
+### 기본 형식
+
 ``` sql
 SELECT [컬럼1, 컬럼2, ...] FROM [테이블] WHERE [컬럼] [비교연산자] [값]
 ```
 
+
+
 ## 비교연산자 종류 
+
 * 컬럼 = 조건값 : 조건값과 동일한 값을 조회
 * 컬럼 != 조건값 : 조건값과 같지 않은 값을 조회
 * 컬럼 <> 조건값 : 조건값과 같지 않은 값을 조회
@@ -56,8 +57,8 @@ SELECT [컬럼1, 컬럼2, ...] FROM [테이블] WHERE [컬럼] [비교연산자]
 * 컬럼 >= 조건값 : 조건값보다 크거나 같은 값을 조회
 
 
-* 컬럼 !< 조건값 : 조건값보다 작지 않은 값을 조회
-* 컬럼 !> 조건값 : 조건값보다 크지 않은 값을 조회
+* 컬럼 !< 조건값 : 조건값보다 작지 않은(크거나 같은) 값을 조회
+* 컬럼 !> 조건값 : 조건값보다 크지 않은(작거나 같은) 값을 조회
 
 
 ※ 익숙한 비교 연산자 외 <>, !<, !> 만 숙지하면 된다.  
@@ -65,11 +66,13 @@ SELECT [컬럼1, 컬럼2, ...] FROM [테이블] WHERE [컬럼] [비교연산자]
 
 
 
+
 ## where문에서 비교 연산자 사용
 
 
 ### = 연산자
-actor 테이블에서 first_name 컬럼의 값이 michael인 데이터 조회
+
+#### actor 테이블에서 first_name 컬럼의 값이 michael인 데이터 조회
 
 ``` sql 
 mysql> select * from actor where first_name = 'michael';
@@ -84,7 +87,8 @@ mysql> select * from actor where first_name = 'michael';
 
 
 ### <>, != 연산자
-language 테이블에서 name 컬럼의 값이 English가 아닌 데이터 조회
+
+#### language 테이블에서 name 컬럼의 값이 English가 아닌 데이터 조회
 
 ``` sql
 mysql> select * from language where name <> 'English';
@@ -155,19 +159,64 @@ mysql> select payment_id, amount, payment_date from payment where payment_id <= 
 5 rows in set (0.00 sec)
 ```
 
-### > 연산자
-
-
 ### >= 연산자
 
+#### payment_id가 5보다 크거나 같은 데이터 조회
 
-### !< 연산자
+``` sql
+
+mysql> select payment_id, amount, payment_date from payment where payment_id >= 5;
++------------+--------+---------------------+
+| payment_id | amount | payment_date        |
++------------+--------+---------------------+
+|       5    |   9.99 | 2005-06-15 21:08:46 |
+|       6    |   3.99 | 2005-06-15 23:04:20 |
+|       7    |   2.99 | 2005-06-16 10:32:10 |
+|       8    |   4.99 | 2005-06-16 11:01:45 |
+|       9    |   1.99 | 2005-06-16 12:40:00 |
++------------+--------+---------------------+
+5 rows in set (0.01 sec)
+
+```
+
+### !< 연산자(>=)
+
+#### payment_id가 5보다 작지 않은(크거나 같은) 데이터를 조회
+
+``` sql
+mysql> select payment_id, amount, payment_date from payment where payment_id !< 5;
++------------+--------+---------------------+
+| payment_id | amount | payment_date        |
++------------+--------+---------------------+
+|       5    |   9.99 | 2005-06-15 21:08:46 |
+|       6    |   3.99 | 2005-06-15 23:04:20 |
+|       7    |   2.99 | 2005-06-16 10:32:10 |
+|       8    |   4.99 | 2005-06-16 11:01:45 |
+|       9    |   1.99 | 2005-06-16 12:40:00 |
++------------+--------+---------------------+
+5 rows in set (0.01 sec)
+
+```
 
 
-### !> 연산자
+### !> 연산자(<=)
 
+#### payment_id가 5보다 크지 않은(작거나 같은) 데이터를 조회:
 
+``` sql
+mysql> select payment_id, amount, payment_date from payment where payment_id !>  5;
++------------+--------+---------------------+
+| payment_id | amount | payment_date        |
++------------+--------+---------------------+
+|       1    |   2.99 | 2005-05-25 11:30:37 |
+|       2    |   0.99 | 2005-05-28 10:35:23 |
+|       3    |   5.99 | 2005-06-15 00:54:12 |
+|       4    |   0.99 | 2005-06-15 18:02:53 |
+|       5    |   9.99 | 2005-06-15 21:08:46 |
++------------+--------+---------------------+
+5 rows in set (0.01 sec)
 
+```
 
 
 
@@ -175,24 +224,38 @@ mysql> select payment_id, amount, payment_date from payment where payment_id <= 
 
 ## 논리 연산자 종류
 
-ALL
-AND
-ANY
-BETWEEN
-EXISTS
-IN
-LIKE
-NOT
-OR
-SOME
+### ALL 
+#### 서브쿼리에서 반환된 모든 값과 비교하여 조건을 만족하는 데이터
+
+
+### AND 
+#### 두 개 이상의 조건이 모두 참일 때 데이터를 조회
+
+### ANY 
+#### 서브쿼리에서 반환된 하나 이상의 값과 비교하여 조건을 만족하는 데이터
+
+### BETWEEN 
+#### 지정된 범위 내의 데이터를 조회
+
+### EXISTS 
+#### 하위쿼리에 행이 포함되면(결과가 존재하는지) 데이터를 조회
+
+### IN 
+#### 피연산자가 값 목록에 하나라도 포함되어 있다면 데이터 조회
+
+### LIKE : 문자열 패턴과 일치하는 데이터를 찾음
+### NOT : 조건의 반대 값이 참일 때 결과를 반환
+### OR : 두 개 이상의 조건 중 하나라도 참이면 결과가 참
+### SOME 
+#### 서브쿼리에서 반환된 하나 이상의 값과 비교하여 조건을 만족하는 
+
+※ AND, OR, IN, NOT, BETWEEN, LIKE 정도가 쿼리문 작성시 자주 사용된다.
+
+
+
 
 
 ## where문에서 논리 연산자 사용
-
-
-
-
-
 
 
 
@@ -204,9 +267,6 @@ WHERE address IS NULL;
 
 WHERE address IS NOT NULL:
 
-
- 
-## ORDER BY문 
 
 
 
