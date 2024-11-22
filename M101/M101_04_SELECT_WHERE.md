@@ -241,55 +241,19 @@ SELECT * FROM member WHERE mb_level IN (1, 2, 3);
 ```
 
 
-
 ### EXISTS 
 #### 하위쿼리에 행이 포함되면(결과가 존재하는지) 데이터를 조회
 
-orders 테이블에 주문이 있는 고객을 조회합니다. 하위 쿼리가 결과를 반환하면 EXISTS가 TRUE가 되어 해당 고객을 조회합니다.
-
-
-``` sql
-SELECT * FROM customer
-WHERE EXISTS (SELECT 1 FROM orders WHERE orders.customer_id = customer.customer_id);
-```
-
-
-
-
-
-
 ### ALL 
-
 #### 서브쿼리에서 반환된 모든 값과 비교하여 조건을 만족하는 데이터 조회
-
-orders 테이블에서 customer_id가 5인 고객의 모든 주문 금액보다 큰 주문을 조회
-
-``` sql
-SELECT * FROM orders
-WHERE order_amount > ALL (SELECT order_amount FROM orders WHERE customer_id = 5);
-```
 
 ### ANY 
 #### 서브쿼리에서 반환된 하나 이상의 값과 비교하여 조건을 만족하는 데이터
 
-customer_id가 5인 고객의 주문 금액 중 하나와 같은 금액을 가진 주문을 조회합니다.
-
-``` sql
-SELECT * FROM orders
-WHERE order_amount = ANY (SELECT order_amount FROM orders WHERE customer_id = 5);
-```
-
-
 ### SOME 
 #### 서브쿼리에서 반환된 하나 이상의 값과 비교하여 조건을 만족하는 
 
-customer_id가 5인 고객의 주문 금액 중 하나라도 더 작은 주문 금액을 가진 주문을 조회합니다.
 
-```
-SELECT * FROM orders
-WHERE order_amount > SOME (SELECT order_amount FROM orders WHERE customer_id = 5);
-
-```
 
 ※ AND, OR, IN, NOT, BETWEEN, LIKE 정도가 쿼리문 작성시 자주 사용된다.
 
