@@ -1,4 +1,4 @@
-# SQL 문법 - SELECT, WHERE
+# SQL 문법 - SELECT
 
 Mysql 설치시 제공되는 Sakila, World DB를 활용한 SELECT 예제를 진행한다.
 
@@ -34,7 +34,7 @@ SELECT * FROM tablename;
 
 ## WHERE문 
 
-테이블에 저장된 전체 데이터를 조회하게되면 시간이 오래 걸려 출력이 늦어지게 되고, 시스템에 과부하가 올 수가 있다. 그렇기 때문에 과부하를 줄이기 위해 내가 원하는 조건의 데이터만 WHERE문을 이용하여 조회한다.
+테이블에 저장된 전체 데이터를 조회하게되면 시간이 오래 걸려 출력이 늦어지게 되고, 과부하를 줄이기 위해 내가 원하는 조건의 데이터만 WHERE문을 이용하여 조회한다.
 
 ### 기본 형식
 
@@ -47,8 +47,7 @@ SELECT [컬럼1, 컬럼2, ...] FROM [테이블] WHERE [컬럼] [비교연산자]
 ## 비교연산자 종류 
 
 * 컬럼 = 조건값 : 조건값과 동일한 값을 조회
-* 컬럼 != 조건값 : 조건값과 같지 않은 값을 조회
-* 컬럼 <> 조건값 : 조건값과 같지 않은 값을 조회
+* 컬럼 !=(<>) 조건값 : 조건값과 같지 않은 값을 조회
 
 * 컬럼 < 조건값 : 조건값 보다 작은 값을 조회
 * 컬럼 <= 조건값 : 조건값보다 작거나 같은 값을 조회
@@ -179,64 +178,107 @@ mysql> select payment_id, amount, payment_date from payment where payment_id >= 
 
 ## 논리 연산자 종류 및 예시 
 
-### ALL 
-#### 서브쿼리에서 반환된 모든 값과 비교하여 조건을 만족하는 데이터
-
-
-
-
-
 ### AND 
 #### 두 개 이상의 조건이 모두 참일 때 데이터를 조회
+
+레벨이 1이고 성별이 남자인 회원 
+
 ``` sql
-SELECT * FROM member
-WHERE mb_level = 1 AND mb_sex = 'M';
+SELECT * FROM member WHERE mb_level = 1 AND mb_sex = 'M';
 ```
-
-
-
-
-### ANY 
-#### 서브쿼리에서 반환된 하나 이상의 값과 비교하여 조건을 만족하는 데이터
-
-### BETWEEN 
-#### 지정된 범위 내의 데이터를 조회
-
-### EXISTS 
-#### 하위쿼리에 행이 포함되면(결과가 존재하는지) 데이터를 조회
-
-### IN 
-#### 피연산자가 값 목록에 하나라도 포함되어 있다면 데이터 조회
-
-### LIKE 
-#### 문자열 패턴과 일치하는 데이터를 찾음
-
-### NOT 
-#### 조건의 반대 값이 참일 때 결과를 반환
 
 ### OR  
 #### 두 개 이상의 조건 중 하나라도 참이면 결과가 참
 
+레벨이 1이거나 성별이 남자인 회원 
+
+``` sql
+SELECT * FROM member WHERE mb_level = 1 OR mb_sex = 'M';
+```
+
+### NOT 
+#### 조건의 반대 값이 참일 때 결과를 반환
+레벨이 100이 아닌 회원 
+``` sql
+SELECT * FROM member WHERE NOT mb_level = 100;
+```
+
+
+
+### LIKE 
+#### 문자열 패턴과 일치하는 데이터를 찾음
+
+이름이 김씨인 회원 (이름에 김을 포함)
+
+``` sql
+SELECT * FROM member WHERE mb_name LIKE '김%';
+```
+
+
+
+### BETWEEN 
+#### 지정된 범위 내의 데이터를 조회
+
+회원 포인트가 3000이상 5000이하인 회원
+
+``` sql
+SELECT * FROM member WHERE mb_point BETWEEN 3000 and 5000;
+```
+
+가입일이 11월1일 ~ 11월 30일인 회원
+``` sql
+SELECT * FROM member WHERE regDate BETWEEN '2024-11-01' and '2024-11-30';
+```
+
+
+### IN 
+#### 피연산자가 값 목록에 하나라도 포함되어 있다면 데이터 조회
+
+레벨이 1, 2, 3인 회원을 조회
+
+``` sql
+SELECT * FROM member WHERE mb_level IN (1, 2, 3);
+```
+
+
+### EXISTS 
+#### 하위쿼리에 행이 포함되면(결과가 존재하는지) 데이터를 조회
+
+### ALL 
+#### 서브쿼리에서 반환된 모든 값과 비교하여 조건을 만족하는 데이터 조회
+
+### ANY 
+#### 서브쿼리에서 반환된 하나 이상의 값과 비교하여 조건을 만족하는 데이터
+
 ### SOME 
 #### 서브쿼리에서 반환된 하나 이상의 값과 비교하여 조건을 만족하는 
+
+
 
 ※ AND, OR, IN, NOT, BETWEEN, LIKE 정도가 쿼리문 작성시 자주 사용된다.
 
 
 
+## NULL
+
+NULL값인 컬럼 조회
+
+``` sql
+SELECT * FROM member WHERE mb_addr IS NULL;
+```
+
+NULL 값이 아닌 컬럼 조회
+
+``` sql
+SELECT * FROM member WHERE mb_addr IS NOT NULL;
+```
+
+※ NULL은 특정 값이 아니기때문에 WHERE mb_addr = NULL와 같이 = 연산자를 사용하지 않는다.
 
 
-## where문에서 논리 연산자 사용
 
 
 
-
-
-WHERE address = '';
-
-WHERE address IS NULL;
-
-WHERE address IS NOT NULL:
 
 
 
