@@ -1,0 +1,29 @@
+# ALTER
+
+
+## ADD
+
+ ``` SQL
+ALTER TABLE PARENT_TABLE ADD PRIMARY KEY(P_COLUMN);
+```
+
+
+## REFERENCE
+외래키 추가시 기본키를 참조할 때 사용한다.
+
+``` SQL
+ALTER TABLE CHILD_TABLE ADD FOREIGN KEY(C_COLUMN) REFERENCE PARENT_TABLE(P_COLUMN)
+```
+
+
+
+## DROP
+
+``` SQL
+```
+
+
+
+``` SQL
+```
+
