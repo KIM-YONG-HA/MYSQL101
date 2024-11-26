@@ -21,6 +21,7 @@ SELECT * FROM [테이블명] WHERE [조건] ORDER BY [컬럼1], [컬럼2 DESC];
 ```
 
 1차 정렬 : 컬럼1 ASC
+
 2차 정렬 : 컬럼2 DESC
 
 1차 정렬 후 2차 정렬 진행된다.
