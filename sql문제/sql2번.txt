@@ -1,0 +1,21 @@
+
+
+4. 
+
+create table child (
+c_idx int primary key,
+c_name varchar(10),
+c_birth date,
+c_gender char(4),
+c_addr varchar(50),
+c_tel varchar(14)
+)
+
+5.
+
+load data local infile 'D:\\원아.txt' into table kukje.child fields terminated by '\t' lines terminated by '\r\n';
+
+6.
+
+select * from child;
+
