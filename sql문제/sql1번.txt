@@ -1,0 +1,122 @@
+1.
+
+create sales;
+
+CREATE TABLE sale (
+  sa_idx int PRIMARY KEY COMMENT '판매번호',
+  pr_code varchar(10) COMMENT '제품코드',
+  sa_date date COMMENT '판매일',
+  sa_name varchar(20) COMMENT '영업사원',
+  br_code varchar(20) COMMENT '소속지점코드',
+  sa_cnt int COMMENT '판매수량'
+ 
+)
+
+2
+alter table sale modify pr_code varchar(10) after sa_idx;
+
+
+3.
+alter table sale rename column 소속지점코드 to 지점코드;
+
+4.
+
+select br_code, 
+(case
+when substring(br_code,3,1) = 9 then '광주'
+when substring(br_code,3,1) = 8 then '서울'
+when substring(br_code,3,1) = 0 then '부산'
+else ''
+end) as local
+from sale limit 10;
+
+update sale set br_name = (case
+when substring(br_code,3,1) = 9 then '광주'
+when substring(br_code,3,1) = 8 then '서울'
+when substring(br_code,3,1) = 0 then '부산'
+else ''
+end);
+
+5.
+
+select pr_code, substring(pr_code,1,2) from sale limit 10;
+
+update sale set pr_name = (case
+when substring(pr_code,1,2) = 'YB' then '운동화'
+when substring(pr_code,1,2) = 'SB' then '의류'
+when substring(pr_code,1,2) = 'BJ' then '가방'
+else ''
+end);
+
+
+6. 
+
+update sale set price = 5000 where pr_name = '운동화';
+update sale set price = 3000 where pr_name = '의류';
+update sale set price = 7000 where pr_name = '가방';
+
+
+7.
+
+alter table sale add sa_amount int;
+
+update sale set sa_price = (sa_cnt * sa_amount);
+
+
+
+8.
+
+alter table sale add sa_origin_price int;
+update sale set sa_origin_price = (sa_price * 0.75);
+
+9.
+
+alter table sale add sa_benefit int;
+
+update sale set sa_benefit = (sa_price - sa_origin_price) * sa_cnt;
+
+
+
+10.
+alter table sale modify sa_benefit int first;
+
+
+11.
+select sum(sa_cnt) as 전체판매수량합, avg(sa_cnt) as 전체판매평균 from sale;
+
+
+12.
+select sum(sa_amount) as 판매금액총액 from sale;
+
+13.
+
+select sum(sa_amount) as 판매금액총액 from sale where sa_name like '김%';
+
+14.
+동명이인이 없다는 가정 하에.
+select count(distinct sa_name) from sale where sa_name like '이%';
+
+15.
+
+select pr_code, sa_name, br_code from, sale 
+where pr_code = 'YBR41' or pr_code = 'SBBC9' or pr_code = 'BJBBC9' and pr_code = 'BRJ5G';
+
+
+
+16. sd가 포함된 레코드
+
+select br_code from sale where br_code like '%SD%';
+select br_code from sale where br_code REGEXP 'SD';
+
+
+17. KD가 포함되지 않은 레코드 
+
+select br_code from sale where br_code not like '%KD%';
+ select br_code from sale where br_code REGEXP '^[KD]';
+
+
+18.
+
+select * from sale where sa_cnt >= 60 and sa_cnt <= 100 order by sa_cnt desc;
+
+
