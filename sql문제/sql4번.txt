@@ -1,0 +1,118 @@
+1.
+
+create database kjca;
+
+create table orders (
+o_idx int, 
+pr_name varchar(20), 
+br_name varchar(20), 
+o_cnt int, 
+o_price int, 
+o_date datetime);
+
+
+2.
+alter table orders add o_origin_price int;
+
+
+
+
+
+3.
+update orders set pr_name = replace(pr_name, '쌕썍','봉봉') where pr_name like '%쌕썍%';
+
+
+4.
+
+alter table orders rename column 순번 to 판매번호
+
+5.
+
+select distinct pr_name from orders
+
+select pr_name from orders group by pr_name;
+
+
+6.
+
+
+select * from orders where br_name IN('순천점', '목포점');
+
+update orders set br_name = '전남점' where br_name in('순천점','목포점');
+
+
+
+
+7.
+
+alter table orders modify o_idx int primary key;
+
+
+
+8.
+
+
+alter table orders modify o_date datetime after pr_name;\
+
+
+
+9.
+
+select sum(o_price) as 합계주문금액 from orders;
+
+
+10.
+
+select count(br_name) from orders where br_name ='안양점';
+
+select br_name, count(*) as cnt from orders group by br_name having br_name ='안양점';
+
+
+
+11.
+
+select * from orders order by o_cnt desc;
+
+
+12.
+
+select * from orders order by o_date asc;
+
+
+13.
+
+select br_name, o_price from orders group by br_name, o_price order by br_name asc, o_price desc;
+
+
+14. 
+
+select pr_name, sum(o_price) as sum from orders group by pr_name;
+
+
+15.
+
+select pr_name, avg(o_price) as avg from orders group by pr_name order by avg desc;
+
+
+16.
+
+select br_name, sum(o_cnt) as cnt from orders group by br_name
+
+
+
+17.
+
+
+select o_date, sum(o_price) as sum, avg(o_cnt) as avg from orders group by o_date;
+
+
+
+
+18.
+
+select br_name, o_cnt from orders group by br_name,o_cnt having o_cnt >= 40 order by br_name desc;
+
+
+19.
+
+

@@ -92,14 +92,21 @@ select sum(sa_amount) as 판매금액총액 from sale;
 
 select sum(sa_amount) as 판매금액총액 from sale where sa_name like '김%';
 
-14.
-동명이인이 없다는 가정 하에.
+14. 이씨인 영업사원의 인원수 출력
+
 select count(distinct sa_name) from sale where sa_name like '이%';
+
+동명이인이 없다는 가정 하에.
 
 15.
 
-select pr_code, sa_name, br_code from, sale 
+select pr_code, sa_name, br_code from sale 
 where pr_code = 'YBR41' or pr_code = 'SBBC9' or pr_code = 'BJBBC9' and pr_code = 'BRJ5G';
+
+select pr_code, sa_name, br_code from sale 
+where pr_code IN('YBR41','SBBC9','SBBC9');
+
+
 
 
 
@@ -112,11 +119,12 @@ select br_code from sale where br_code REGEXP 'SD';
 17. KD가 포함되지 않은 레코드 
 
 select br_code from sale where br_code not like '%KD%';
- select br_code from sale where br_code REGEXP '^[KD]';
+select br_code from sale where br_code not REGEXP 'KD';
 
 
 18.
 
 select * from sale where sa_cnt >= 60 and sa_cnt <= 100 order by sa_cnt desc;
 
+select * from sale where sa_cnt between 60 and 100 order by sa_cnt desc;
 
