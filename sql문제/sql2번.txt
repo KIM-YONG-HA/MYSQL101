@@ -6,6 +6,7 @@ create table child (
 c_idx int primary key,
 c_name varchar(10),
 c_birth date,
+c_class varchar(10),
 c_gender char(4),
 c_addr varchar(50),
 c_tel varchar(14)
@@ -18,4 +19,93 @@ load data local infile 'D:\\원아.txt' into table kukje.child fields terminated
 6.
 
 select * from child;
+
+7.
+
+alter table child drop c_idx;
+
+
+
+8.
+
+update child set c_addr = '서울시' where c_addr like '서울시%';
+update child set c_addr = '경기도' where c_addr like '경기도%';
+
+
+
+9.
+
+select * from child where c_birth like '%-12-%';
+select * from child where date_format(c_birth, '%m') = 12;
+
+
+10.
+
+select * from child where c_class = 'c1';
+
+
+11. 
+
+select * from child where c_gender = '남' order by c_birth desc;
+
+
+12.
+
+select * from child where c_class = 'c2' and c_addr = '서울시';
+
+
+13.
+
+select * from child where c_tel like '%555%';
+
+14.
+
+select count(*) as cnt from child;
+
+
+15.
+
+select c_class, count(*) as cnt from child group by c_class;
+
+
+16.
+
+select c_gender, count(*) as cnt from child group by c_gender;
+
+
+
+17.
+
+select c_name,c_class,c_addr from child group by c_name, c_class, c_addr  
+having c_addr = '서울시' order by c_class desc;
+
+18.
+
+select c_class, c_gender, count(*) as cnt from child 
+group by c_class,c_gender having c_gender = '여' order by c_class desc;
+
+
+19.
+
+select c_name, c_birth from child where date_format(c_birth, '%d') < 15 order by date_format(c_birth, '%d') desc;
+
+
+
+
+
+
+
+
+
+
+
+
+
+20. 
+
+select c_name, c_class from child where c_tel REGEXP '5421$';
+
+
+
+
 
