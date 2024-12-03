@@ -1,0 +1,55 @@
+06 되새김 문제
+
+Q1
+select concat(name, space(1), continent, space(1), population) from country;
+
+Q2
+select name, IFNULL(indepYear, '데이터 없음') from country where indepYear IS NULL;
+
+Q3
+select upper(name), lower(name) from country;
+
+Q4
+select LTRIM(name), RTRIM(name), TRIM(name) from country;
+
+Q5
+ select name, char_length(name) as len from country where char_length(name) > 20 order by len desc;
+
+Q6
+select name, substring(surfaceArea, 1, position('.' in surfacearea)-1) from country order by surfacearea;
+
+Q7
+select substring(name, 2, 4) from country;
+
+Q8
+select replace(code, 'A', 'Z') from country;
+
+Q9
+select replace(code, 'A', repeat('Z', 10)) from country;
+
+Q10
+select now(), date_add(now(), interval 24 hour);
+
+Q11
+select now(), date_sub(now(), interval 24hour);
+
+Q12
+select dayname('2024-01-01');
+
+Q13
+select count(*) as cnt country;
+
+Q14
+select sum(gnp), avg(gnp), min(gnp), max(gnp) from country;
+
+Q15
+select round(lifeExpectancy,0) from country;
+
+Q16
+select row_number() over(order by lifeExpectancy desc, name asc) as num, lifeExpectancy, name from country;
+
+Q17
+select rank() over(order by lifeExpectancy desc) as num, lifeExpectancy, name from country;
+
+
+
