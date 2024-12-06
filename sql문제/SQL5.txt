@@ -1,0 +1,148 @@
+
+1.
+drop procedure if exists insertOrUpdateProduct;
+
+DELIMITER $$
+
+create procedure insertOrUpdateProduct(param_code VARCHAR(10), param_name varchar(10), param_price int)
+
+BEGIN 
+
+declare pr_count INT;
+set pr_count = (select count(*) as cnt from product WHERE p_code = param_code);
+
+if (pr_count) = 0 then
+
+insert into product values (param_code, param_name, param_price);
+
+ELSE 
+
+update product set p_code = param_code, p_name = param_name, p_price = param_price WHERE p_code = param_code;
+
+end if;
+
+END $$
+
+DELIMITER ;
+
+call insertOrUpdateProduct('F','컴퓨터',100000);
+
+
+
+
+2.
+
+create table copy_st select * from st;
+
+
+3.
+
+ALTER TABLE copy_st
+
+DROP st_ssn,
+DROP st_addr,
+DROP st_birth
+
+
+4.
+
+create table studentCount (
+
+st_gender CHAR(1) null default '0',
+st_count int not null DEFAULT 0
+
+);
+
+
+ALTER TABLE studentcount ADD PRIMARY KEY(st_gender);
+ALTER TABLE studentcount ADD constraint PRIMARY KEY(st_gender);
+
+
+INSERT INTO studentcount (SELECT st_gender, COUNT(*) AS cnt FROM st GROUP BY st_gender)
+
+
+
+
+5. 
+
+DROP TRIGGER if EXISTS AfterInsertSt;
+
+
+DELIMITER $$
+
+create trigger AfterInsertSt
+
+after insert 
+
+on st
+
+for each row 
+
+
+BEGIN 
+
+update studentcount 
+
+SET st_count = (SELECT COUNT(*) AS cnt FROM st GROUP BY st_gender having st_gender = new.st_gender)
+
+WHERE st_gender = new.st_gender;
+
+
+
+END $$
+
+DELIMITER ;
+
+
+
+if(new.st_gender) then
+update studentcount set st_gender = st_gender + 1 where st_gender = new.st_gender;
+
+
+
+6.
+
+drop function if exists Fn_Grade;
+
+delimiter $$
+
+create function Fn_Grade(ea int)
+returns VARCHAR(10)
+
+BEGIN
+
+declare grade VARCHAR(10);
+
+SET grade =
+
+(case
+when ea>=100 then '최우수'
+when ea>=80 then '우수'
+when ea>=60 then '보통'
+else '미흡' END);
+
+RETURN grade;
+
+END $$
+
+delimiter ;
+
+
+
+7.
+
+select sa_name, sa_cnt, Fn_Grade(sa_cnt) as grade from copy_sale;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
